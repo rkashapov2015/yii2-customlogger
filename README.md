@@ -30,8 +30,11 @@ Once the extension is installed, simply use it in your code by  :
 ```php
 'components' = > [
     'custom-logger' => [
-        'class' => rkashapov2015\customlogger\CustomLogger::classname(),
+        'class' => 'rkashapov2015\customlogger\CustomLogger',
         'type' => '{1|2}' //1 = DB; 2 = CURL,
         'url' => '{for CURL}'
+        'excludeRoutes' => [
+            '/debug/'
+        ]
     ]
 ]
