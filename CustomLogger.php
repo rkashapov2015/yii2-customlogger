@@ -14,6 +14,9 @@ class CustomLogger implements \yii\base\BootstrapInterface
 {
     public $type = 2;
     public $url;
+    public $excludeRoutes = [
+        '/debug/'
+    ];
 
     public function bootstrap($app)
     {
@@ -22,7 +25,8 @@ class CustomLogger implements \yii\base\BootstrapInterface
             [
                 'class' => LogBehavior::className(),
                 'type' => $this->type,
-                'url' => $this->url
+                'url' => $this->url,
+                'excludeRoutes' => $this->excludeRoutes
             ]
         );
 
