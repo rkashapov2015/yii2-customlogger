@@ -18,6 +18,7 @@ class LogBehavior extends Behavior
 
     public $type;
     public $url;
+    public $excludeRoutes;
 
     /**
      * @inheritdoc
@@ -52,11 +53,23 @@ class LogBehavior extends Behavior
         $data['agent'] = Yii::$app->request->userAgent;
         $data['ip'] = Yii::$app->request->userIP;
         $data['url'] = Yii::$app->request->getUrl();
-        $matches = null;
-        $returnValue = preg_match('/debug\\/default\\/toolbar/', $data['url'], $matches);
-        if ($matches) {
-            return true;
+
+
+        foreach($this->excludeRoutes as $route) {
+
+            $proceed_route = str_replace('/', '\\/', $route);
+            $proceed_route = str_replace('*', '.*', $proceed_route);
+            $proceed_route = '/^' . $proceed_route . '$/';
+
+            $matches = null;
+            $returnValue = preg_match($proceed_route, $data['url'], $matches);
+            //$returnValue = preg_match('/debug\\/default\\/toolbar/', $data['url'], $matches);
+            if ($matches) {
+                return true;
+            }
         }
+
+
         $data['request_method'] = Yii::$app->request->method;
 
         //user_id
