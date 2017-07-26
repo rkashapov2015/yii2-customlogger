@@ -4,6 +4,7 @@ namespace rkashapov2015\customlogger;
 
 
 use rkashapov2015\customlogger\behaviors\LogBehavior;
+use rkashapov2015\customlogger\models\LogFactory;
 
 /**
  * Description of Bootstrap
@@ -12,7 +13,7 @@ use rkashapov2015\customlogger\behaviors\LogBehavior;
  */
 class CustomLogger implements \yii\base\BootstrapInterface
 {
-    public $type = 2;
+    public $type = LogFactory::TYPE_DB;
     public $url;
     public $excludeRoutes = [
         '/debug/*'

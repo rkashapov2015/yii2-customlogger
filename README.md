@@ -31,7 +31,7 @@ Once the extension is installed, simply use it in your code by  :
 'components' = > [
     'custom-logger' => [
         'class' => 'rkashapov2015\customlogger\CustomLogger',
-        'type' => '{1|2}' //1 = DB; 2 = CURL,
+        'type' => '{1|2}' //1 = CURL, 2 = DB;
         'url' => '{for CURL}'
         'excludeRoutes' => [
             '/debug/'
@@ -40,7 +40,7 @@ Once the extension is installed, simply use it in your code by  :
 ]
 ```
 
-for working with database (type = 1), exec this command in the root project: 
+for working with database (type = 2), exec this command in the root project: 
 ```
 php yii migrate --migrationPath=@rkashapov2015/customlogger/migrations
 ```
