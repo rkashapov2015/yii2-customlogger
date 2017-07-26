@@ -18,6 +18,7 @@ class CustomLogger implements \yii\base\BootstrapInterface
     public $excludeRoutes = [
         '/debug/*'
     ];
+    public $useIpGeoBase = false;
 
     public function bootstrap($app)
     {
@@ -27,7 +28,8 @@ class CustomLogger implements \yii\base\BootstrapInterface
                 'class' => LogBehavior::className(),
                 'type' => $this->type,
                 'url' => $this->url,
-                'excludeRoutes' => $this->excludeRoutes
+                'excludeRoutes' => $this->excludeRoutes,
+                'useIpGeoBase' => $this->useIpGeoBase
             ]
         );
 

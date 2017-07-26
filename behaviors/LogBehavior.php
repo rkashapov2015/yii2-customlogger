@@ -19,6 +19,7 @@ class LogBehavior extends Behavior
     public $type;
     public $url;
     public $excludeRoutes;
+    public $useIpGeoBase;
 
     /**
      * @inheritdoc
@@ -91,14 +92,14 @@ class LogBehavior extends Behavior
         $data['params'] = json_encode($params);
 
         //geo data by ip
-        /*if (isset(Yii::$app->ipgeobase)) {
+        if ($this->useIpGeoBase && isset(Yii::$app->ipgeobase)) {
             $geo_data_ip = Yii::$app->ipgeobase->getLocation($remote_ip);
             $data['country'] = isset($geo_data_ip['country']) ? $geo_data_ip['country'] : null;
             $data['region'] = isset($geo_data_ip['region']) ? $geo_data_ip['region'] : null;
             $data['city'] = isset($geo_data_ip['city']) ? $geo_data_ip['city'] : null;
             $data['lat'] = isset($geo_data_ip['lat']) ? $geo_data_ip['lat'] : null;
             $data['lng'] = isset($geo_data_ip['lng']) ? $geo_data_ip['lng'] : null;
-        }*/
+        }
         $data['created_at'] = strtotime("now");
 
         return $data;

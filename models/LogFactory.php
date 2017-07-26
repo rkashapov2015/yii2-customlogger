@@ -16,6 +16,7 @@ class LogFactory
     public $type;
     public $url;
 
+
     function __construct($type = LogFactory::TYPE_DB,$url = '')
     {
         $this->type = $type;
