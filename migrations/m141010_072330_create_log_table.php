@@ -3,7 +3,7 @@
 use yii\db\Migration;
 
 /**
- * Handles the creation of table `mylogger`.
+ * Handles the creation of table `custom-log`.
  */
 class m141010_072330_create_log_table extends Migration
 {
@@ -35,6 +35,6 @@ class m141010_072330_create_log_table extends Migration
      */
     public function down()
     {
-        $this->dropTable('mylogger');
+        $this->dropTable('custom-log');
     }
 }
