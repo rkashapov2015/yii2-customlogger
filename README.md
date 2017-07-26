@@ -22,7 +22,7 @@ or add
 to the require section of your `composer.json` file.
 
 
-Usage
+Configuration
 -----
 
 Once the extension is installed, simply use it in your code by  :
@@ -38,3 +38,9 @@ Once the extension is installed, simply use it in your code by  :
         ]
     ]
 ]
+```
+
+for working with database (type = 1), exec this command in the root project: 
+```
+php yii migrate --migrationPath=@rkashapov2015/customlogger/migrations
+```
