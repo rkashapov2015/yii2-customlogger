@@ -15,8 +15,11 @@ class DbLogger implements iLogger
     {
         if (isset($data) && is_array($data)) {
             $customLog = new CustomLog();
+            if (isset($data['created_at'])) {
+                unset ($data['created_at']);
+            }
             foreach ($data as $key => $value) {
-                if (property_exists(CustomLog::class, $key)) {
+                if ($customLog->hasAttribute($key)) {
                     $customLog->$key = $value;
                 }
             }
