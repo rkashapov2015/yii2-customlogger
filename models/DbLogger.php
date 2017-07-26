@@ -22,6 +22,8 @@ class DbLogger implements iLogger
             }
             if ($customLog->save()) {
                 return true;
+            } else {
+                \Yii::error(json_encode($customLog->getErrors()));
             }
         }
         return false;
