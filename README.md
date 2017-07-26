@@ -31,11 +31,12 @@ Once the extension is installed, simply use it in your code by  :
 'components' = > [
     'custom-logger' => [
         'class' => 'rkashapov2015\customlogger\CustomLogger',
-        'type' => '{1|2}' //1 = CURL, 2 = DB;
+        'type' => {1|2} //1 = CURL, 2 = DB;
         'url' => '{for CURL}'
         'excludeRoutes' => [
             '/debug/'
-        ]
+        ],
+        'useIpGeoBase' => {true|false}
     ]
 ]
 ```
