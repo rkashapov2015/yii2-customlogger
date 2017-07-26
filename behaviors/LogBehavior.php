@@ -55,7 +55,7 @@ class LogBehavior extends Behavior
         $data['url'] = Yii::$app->request->getUrl();
 
 
-        foreach($this->excludeRoutes as $route) {
+        foreach ($this->excludeRoutes as $route) {
 
             $proceed_route = str_replace('/', '\\/', $route);
             $proceed_route = str_replace('*', '.*', $proceed_route);
@@ -74,11 +74,11 @@ class LogBehavior extends Behavior
 
         //user_id
         if (!Yii::$app->user->isGuest) {
-            $data['user_id'] = Yii::$app->user->id;
+            $data['user_id'] = intval(Yii::$app->user->id);
         }
 
         //status
-        $data['status'] = filter_input(INPUT_SERVER, 'REDIRECT_STATUS');
+        $data['status'] = intval(filter_input(INPUT_SERVER, 'REDIRECT_STATUS'));
 
         //GET POST params
         $params = [];
@@ -96,9 +96,11 @@ class LogBehavior extends Behavior
             $data['country'] = isset($geo_data_ip['country']) ? $geo_data_ip['country'] : null;
             $data['region'] = isset($geo_data_ip['region']) ? $geo_data_ip['region'] : null;
             $data['city'] = isset($geo_data_ip['city']) ? $geo_data_ip['city'] : null;
-            $data['lat'] = isset($geo_data_ip['lat']) ? $geo_data_ip['lat'] : null;
-            $data['lng'] = isset($geo_data_ip['lng']) ? $geo_data_ip['lng'] : null;
+            $data['lat'] = isset($geo_data_ip['lat']) ? floatval($geo_data_ip['lat']) : null;
+            $data['lng'] = isset($geo_data_ip['lng']) ? floatval($geo_data_ip['lng']) : null;
         }
+        $data['created_at'] = strtotime("now");
+
         return $data;
     }
 }

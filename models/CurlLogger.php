@@ -28,7 +28,7 @@ class CurlLogger implements iLogger
             curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 5);
             curl_setopt($curl, CURLOPT_RETURNTRANSFER, 1);
             curl_setopt($curl, CURLOPT_POST, true);
-            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query($data));
+            curl_setopt($curl, CURLOPT_POSTFIELDS, http_build_query(['send_data' => $data]));
             $out = curl_exec($curl);
             curl_close($curl);
             //$data = json_decode($out, true);
