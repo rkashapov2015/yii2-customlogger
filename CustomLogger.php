@@ -18,6 +18,7 @@ class CustomLogger implements \yii\base\BootstrapInterface
     public $excludeRoutes = [
         '/debug/*'
     ];
+    public $db = 'db';
     public $useIpGeoBase = false;
 
     public function bootstrap($app)
