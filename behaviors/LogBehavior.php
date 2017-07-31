@@ -2,6 +2,8 @@
 
 namespace rkashapov2015\customlogger\behaviors;
 
+use rkashapov2015\customlogger\models\CustomLog;
+use rkashapov2015\customlogger\models\CustomLogConfig;
 use Yii;
 use yii\base\Application;
 use yii\web\Application as WebApp;
@@ -32,6 +34,8 @@ class LogBehavior extends Behavior
 
     public function afterRequest($event)
     {
+
+
         $isWebApp = Yii::$app instanceof \yii\web\Application;
         if (!$isWebApp) {
             return true;

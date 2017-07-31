@@ -28,7 +28,7 @@ class CustomLogConfig extends \yii\db\ActiveRecord
     {
         return [
             ['key', 'required'],
-            [['key','value'],'string']
+            [['key', 'value'], 'string']
         ];
     }
 
@@ -42,5 +42,45 @@ class CustomLogConfig extends \yii\db\ActiveRecord
             'key' => 'KEY',
             'value' => 'VALUE'
         ];
+    }
+
+    public static function changeValueByKey($key, $value)
+    {
+        $model = static::findOne(['key' => $key]);
+        if (!$model) {
+            $model = new CustomLogConfig();
+
+        }
+        $model->key = $key;
+        $model->value = $value;
+        return $model->save();
+    }
+
+    public static function enableLogger()
+    {
+        static::changeValueByKey('enable', '1');
+    }
+
+    public static function disableLogger()
+    {
+        static::changeValueByKey('enable', '0');
+    }
+
+    public static function setUrl($url)
+    {
+        static::changeValueByKey('url', $url);
+    }
+
+    public function afterSave($insert, $changedAttributes)
+    {
+        $keyCache = 'CustomLogConfig_' . $this->key;
+        if ($insert) {
+
+        }
+
+        \Yii::$app->cache->set($keyCache, $this, 7200);
+
+        parent::afterSave($insert, $changedAttributes);
+        return true;
     }
 }
