@@ -71,16 +71,32 @@ class CustomLogConfig extends \yii\db\ActiveRecord
         static::changeValueByKey('url', $url);
     }
 
+    public static function getExcludeRoutes()
+    {
+        $keyCache = 'CustomLogConfig_excludeRoutes';
+        if (false == $model = \Yii::$app->cache->get($keyCache)) {
+            $model = static::findOne(['key' => 'excludeRoutes']);
+            if ($model) {
+                \Yii::$app->cache->set($keyCache, $model, 7200);
+            }
+        }
+        return $model;
+    }
+
+    public static function setExcludeRoutes($excludeRoutes)
+    {
+        $stringExcludeRoutes = implode(';', $excludeRoutes);
+        static::changeValueByKey('excludeRoutes', $stringExcludeRoutes);
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
+        parent::afterSave($insert, $changedAttributes);
         $keyCache = 'CustomLogConfig_' . $this->key;
         if ($insert) {
 
         }
 
         \Yii::$app->cache->set($keyCache, $this, 7200);
-
-        parent::afterSave($insert, $changedAttributes);
-        return true;
     }
 }
