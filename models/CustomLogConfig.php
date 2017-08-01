@@ -136,6 +136,15 @@ class CustomLogConfig extends \yii\db\ActiveRecord
         return static::setValueByKey('type', $type);
     }
 
+    public static function useIpGeoBase()
+    {
+        $model = static::getModelByKey('useIpGeoBase');
+        if ($model) {
+            if ($model->value == '1') return true;
+        }
+        return false;
+    }
+
     public function afterSave($insert, $changedAttributes)
     {
         parent::afterSave($insert, $changedAttributes);

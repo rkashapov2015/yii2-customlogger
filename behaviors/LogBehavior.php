@@ -97,6 +97,7 @@ class LogBehavior extends Behavior
         $data['params'] = json_encode($params);
 
         //geo data by ip
+
         if ($this->useIpGeoBase && isset(Yii::$app->ipgeobase)) {
             $geo_data_ip = Yii::$app->ipgeobase->getLocation($remote_ip);
             $data['country'] = isset($geo_data_ip['country']) ? $geo_data_ip['country'] : null;
