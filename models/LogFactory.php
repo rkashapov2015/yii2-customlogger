@@ -16,8 +16,7 @@ class LogFactory
     public $type;
     public $url;
 
-
-    function __construct($type = LogFactory::TYPE_DB,$url = '')
+    function __construct($type = LogFactory::TYPE_DB, $url = '')
     {
         $this->type = $type;
         $this->url = $url;
@@ -25,7 +24,12 @@ class LogFactory
 
     public function getLogger()
     {
-        switch ($this->type) {
+        $type = CustomLogConfig::getType();
+        if (!$type) {
+            $type = $this->type;
+        }
+        //switch ($this->type) {
+        switch ($type) {
             case LogFactory::TYPE_CURL:
                 return new CurlLogger($this->url);
                 break;

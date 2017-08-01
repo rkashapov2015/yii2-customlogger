@@ -46,13 +46,19 @@ class CustomLogConfig extends \yii\db\ActiveRecord
 
     public static function setValueByKey($key, $value)
     {
+        $keyCache = 'CustomLogConfig_' . $key;
         $model = static::findOne(['key' => $key]);
         if (!$model) {
             $model = new CustomLogConfig();
+            $model->key = $key;
         }
-        $model->key = $key;
         $model->value = $value;
-        return $model->save();
+
+        if ($model->save()) {
+            \Yii::$app->cache->set($keyCache, $model, 7200);
+            return true;
+        }
+        return false;
     }
 
     public static function getModelByKey($key)
@@ -79,14 +85,19 @@ class CustomLogConfig extends \yii\db\ActiveRecord
 
     public static function loggerIsEnabled()
     {
-        return static::getModelByKey('excludeRoutes');
-
+        $model = static::getModelByKey('enable');
+        if ($model) {
+            if ($model->value == '1') {
+                return true;
+            }
+        }
+        return false;
     }
 
     public static function getUrl()
     {
-        $model =  static::getModelByKey('url');
-        if($model) {
+        $model = static::getModelByKey('url');
+        if ($model) {
             return $model->value;
         }
         return '';
@@ -106,10 +117,23 @@ class CustomLogConfig extends \yii\db\ActiveRecord
     public static function getExcludeRoutes()
     {
         $model = static::getModelByKey('excludeRoutes');
-        if($model) {
+        if ($model) {
             return explode(';', $model->value);
         }
         return [];
+    }
+
+    public static function getType()
+    {
+        $model = static::getModelByKey('type');
+        if ($model) {
+            return intval($model->value);
+        }
+    }
+
+    public static function setType($type)
+    {
+        return static::setValueByKey('type', $type);
     }
 
     public function afterSave($insert, $changedAttributes)
@@ -120,6 +144,6 @@ class CustomLogConfig extends \yii\db\ActiveRecord
 
         }
 
-        \Yii::$app->cache->set($keyCache, $this, 7200);
+
     }
 }
