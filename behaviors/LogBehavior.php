@@ -34,7 +34,7 @@ class LogBehavior extends Behavior
 
     public function afterRequest($event)
     {
-
+        if (!CustomLogConfig::loggerIsEnabled()) return true;
 
         $isWebApp = Yii::$app instanceof \yii\web\Application;
         if (!$isWebApp) {
@@ -59,8 +59,10 @@ class LogBehavior extends Behavior
         $data['ip'] = Yii::$app->request->userIP;
         $data['url'] = Yii::$app->request->getUrl();
 
+        $excludeRoutes = CustomLogConfig::getExcludeRoutes();
 
-        foreach ($this->excludeRoutes as $route) {
+        //foreach ($this->excludeRoutes as $route) {
+        foreach ($excludeRoutes as $route) {
 
             $proceed_route = str_replace('/', '\\/', $route);
             $proceed_route = str_replace('*', '.*', $proceed_route);
@@ -73,7 +75,6 @@ class LogBehavior extends Behavior
                 return true;
             }
         }
-
 
         $data['request_method'] = Yii::$app->request->method;
 

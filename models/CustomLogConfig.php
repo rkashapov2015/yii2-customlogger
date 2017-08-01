@@ -44,38 +44,22 @@ class CustomLogConfig extends \yii\db\ActiveRecord
         ];
     }
 
-    public static function changeValueByKey($key, $value)
+    public static function setValueByKey($key, $value)
     {
         $model = static::findOne(['key' => $key]);
         if (!$model) {
             $model = new CustomLogConfig();
-
         }
         $model->key = $key;
         $model->value = $value;
         return $model->save();
     }
 
-    public static function enableLogger()
+    public static function getModelByKey($key)
     {
-        static::changeValueByKey('enable', '1');
-    }
-
-    public static function disableLogger()
-    {
-        static::changeValueByKey('enable', '0');
-    }
-
-    public static function setUrl($url)
-    {
-        static::changeValueByKey('url', $url);
-    }
-
-    public static function getExcludeRoutes()
-    {
-        $keyCache = 'CustomLogConfig_excludeRoutes';
+        $keyCache = 'CustomLogConfig_' . $key;
         if (false == $model = \Yii::$app->cache->get($keyCache)) {
-            $model = static::findOne(['key' => 'excludeRoutes']);
+            $model = static::findOne(['key' => $key]);
             if ($model) {
                 \Yii::$app->cache->set($keyCache, $model, 7200);
             }
@@ -83,10 +67,46 @@ class CustomLogConfig extends \yii\db\ActiveRecord
         return $model;
     }
 
+    public static function enableLogger()
+    {
+        static::setValueByKey('enable', '1');
+    }
+
+    public static function disableLogger()
+    {
+        static::setValueByKey('enable', '0');
+    }
+
+    public static function loggerIsEnabled()
+    {
+        return static::getModelByKey('excludeRoutes');
+
+    }
+
+
+    public static function getUrl()
+    {
+        return static::getModelByKey('url');
+    }
+
+    public static function setUrl($url)
+    {
+        return static::setValueByKey('url', $url);
+    }
+
     public static function setExcludeRoutes($excludeRoutes)
     {
         $stringExcludeRoutes = implode(';', $excludeRoutes);
-        static::changeValueByKey('excludeRoutes', $stringExcludeRoutes);
+        static::setValueByKey('excludeRoutes', $stringExcludeRoutes);
+    }
+
+    public static function getExcludeRoutes()
+    {
+        $model = static::getModelByKey('excludeRoutes');
+        if($model) {
+            return explode(';', $model->value);
+        }
+        return [];
     }
 
     public function afterSave($insert, $changedAttributes)
