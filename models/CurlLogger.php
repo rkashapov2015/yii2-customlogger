@@ -15,7 +15,8 @@ class CurlLogger implements iLogger
 
     public function __construct($url = '')
     {
-        $this->url = $url;
+        //$this->url = $url;
+        $this->url = CustomLogConfig::getUrl();
     }
 
     public function logProcessing($data)
@@ -23,6 +24,7 @@ class CurlLogger implements iLogger
         if (!isset($data) || !is_array($data)) {
             return false;
         }
+
         if ($curl = curl_init()) {
             curl_setopt($curl, CURLOPT_URL, $this->url);
             curl_setopt($curl, CURLOPT_CONNECTTIMEOUT, 2);

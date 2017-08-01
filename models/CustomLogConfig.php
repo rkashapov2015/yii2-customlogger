@@ -83,10 +83,13 @@ class CustomLogConfig extends \yii\db\ActiveRecord
 
     }
 
-
     public static function getUrl()
     {
-        return static::getModelByKey('url');
+        $model =  static::getModelByKey('url');
+        if($model) {
+            return $model->value;
+        }
+        return '';
     }
 
     public static function setUrl($url)
